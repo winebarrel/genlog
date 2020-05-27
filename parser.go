@@ -88,10 +88,10 @@ func Parse(file io.Reader, cb func(block *Block)) error {
 		} else if block != nil {
 			argBldr.WriteString(line)
 		}
+	}
 
-		if block != nil {
-			callBack(block, argBldr, cb)
-		}
+	if block != nil {
+		callBack(block, argBldr, cb)
 	}
 
 	return scanner.Err()
