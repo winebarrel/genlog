@@ -43,7 +43,8 @@ func newBlock(tm, id, cmd, arg string) (*Block, *strings.Builder) {
 }
 
 func callBack(block *Block, argBldr *strings.Builder, cb func(block *Block)) {
-	block.Argument = argBldr.String()
+	arg := strings.TrimRight(argBldr.String(), "\n")
+	block.Argument = arg
 	cb(block)
 }
 
