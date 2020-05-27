@@ -1,2 +1,4 @@
 *.log
 /genlog
+*.gz
+*.sha1sum
