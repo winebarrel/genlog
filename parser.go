@@ -75,6 +75,8 @@ func Parse(file io.Reader, cb func(block *Block)) error {
 				continue
 			}
 
+			prevTm = tm
+
 			if block != nil {
 				callBack(block, argBldr, cb)
 			}
