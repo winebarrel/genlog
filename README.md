@@ -4,7 +4,7 @@ genlog is MySQL General Query Log parser.
 
 ## Usage
 
-```sh
+```
 $ cat general.log
 2020-05-27T05:03:27.500301Z   11 Query	SET @@sql_log_bin=off
 2020-05-27T05:03:27.543379Z   11 Query	select @@session.tx_read_only
