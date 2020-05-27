@@ -34,8 +34,6 @@ func main() {
 }
 
 func parseArgs() io.ReadCloser {
-	fmt.Println(os.Args)
-
 	if len(os.Args) > 2 {
 		log.Fatalf("usage: %s GENERAL_LOG", os.Args[0])
 	}
