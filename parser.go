@@ -11,6 +11,7 @@ import (
 var reMySQL56 = regexp.MustCompile(`(?s)^(\d{6}\s+\d{1,2}:\d{2}:\d{2}|\t)\s+(\d+)\s+([^\t]+)\t(.*)`)
 
 // https://github.com/mysql/mysql-server/blob/5.7/sql/log.cc#L783
+// NOTE: In Aurora MySQL 5.7, there may be no space between "Time" and "ID"
 var reMySQL57 = regexp.MustCompile(`(?s)^([^\sZ]+Z)\s*(\d+)\s+([^\t]+)\t(.*)`)
 
 // https://github.com/mysql/mysql-server/blob/5.6/sql/log.cc#L1676
