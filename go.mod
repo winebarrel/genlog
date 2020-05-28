@@ -1,4 +1,4 @@
-module genlog
+module github.com/winebarrel/genlog
 
 go 1.14
 
