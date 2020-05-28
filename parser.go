@@ -49,14 +49,22 @@ func callBack(block *Block, argBldr *strings.Builder, cb func(block *Block)) {
 }
 
 func Parse(file io.Reader, cb func(block *Block)) error {
-	scanner := bufio.NewScanner(file)
+	reader := bufio.NewReader(file)
 
 	var block *Block
 	var argBldr *strings.Builder
 	var prevTm string
 
-	for scanner.Scan() {
-		line := scanner.Text()
+	for {
+		rawLine, _, err := reader.ReadLine()
+
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			return err
+		}
+
+		line := string(rawLine)
 
 		if reIgnore.MatchString(line) {
 			continue
@@ -93,5 +101,5 @@ func Parse(file io.Reader, cb func(block *Block)) error {
 		callBack(block, argBldr, cb)
 	}
 
-	return scanner.Err()
+	return nil
 }
