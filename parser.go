@@ -23,6 +23,8 @@ var reIgnore = regexp.MustCompile(
 		`Time                 Id Command    Argument`,
 	}, "|") + `)$`)
 
+var ReadLineBufSize = 4096
+
 type Block struct {
 	Time     string
 	Id       string
@@ -57,7 +59,7 @@ func Parse(file io.Reader, cb func(block *Block)) error {
 	var prevTm string
 
 	for {
-		rawLine, _, err := reader.ReadLine()
+		rawLine, err := readLine(reader)
 
 		if err == io.EOF {
 			break
@@ -103,4 +105,24 @@ func Parse(file io.Reader, cb func(block *Block)) error {
 	}
 
 	return nil
+}
+
+func readLine(reader *bufio.Reader) ([]byte, error) {
+	buf := make([]byte, 0, ReadLineBufSize)
+	var err error
+
+	for {
+		line, isPrefix, e := reader.ReadLine()
+		err = e
+
+		if line != nil && len(line) > 0 {
+			buf = append(buf, line...)
+		}
+
+		if !isPrefix || err != nil {
+			break
+		}
+	}
+
+	return buf, err
 }
