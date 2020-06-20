@@ -115,7 +115,7 @@ func readLine(reader *bufio.Reader) ([]byte, error) {
 		line, isPrefix, e := reader.ReadLine()
 		err = e
 
-		if line != nil && len(line) > 0 {
+		if len(line) > 0 {
 			buf = append(buf, line...)
 		}
 

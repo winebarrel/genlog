@@ -22,7 +22,7 @@ func main() {
 	defer file.Close()
 
 	err := genlog.Parse(file, func(block *genlog.Block) {
-		line, err := jsoniter.MarshalToString(block)
+		line, err := jsoniter.ConfigFastest.MarshalToString(block)
 
 		if err != nil {
 			panic(err)
