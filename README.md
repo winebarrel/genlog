@@ -17,3 +17,7 @@ $ genlog general.log # or `cat general.log | genlog`
 {"Time":"2020-05-27T05:03:27.683485Z","Id":"11","Command":"Query","Argument":"COMMIT"}
 ...
 ```
+
+## Related Links
+
+* https://github.com/winebarrel/xgl
