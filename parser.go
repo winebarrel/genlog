@@ -57,6 +57,8 @@ func Parse(file io.Reader, cb func(block *Block)) error {
 	var block *Block
 	var argBldr *strings.Builder
 	var prevTm string
+	var re *regexp.Regexp
+	cpTm := false
 
 	for {
 		rawLine, err := readLine(reader)
@@ -75,26 +77,33 @@ func Parse(file io.Reader, cb func(block *Block)) error {
 
 		line += "\n"
 
-		if m := reMySQL56.FindStringSubmatch(line); m != nil {
+		if re == nil {
+			if reMySQL56.MatchString(line) {
+				re = reMySQL56
+				cpTm = true
+			} else if reMySQL57.MatchString(line) {
+				re = reMySQL57
+			} else {
+				continue
+			}
+		}
+
+		if m := re.FindStringSubmatch(line); m != nil {
 			tm := m[1]
 
-			if tm == "\t" {
-				tm = prevTm
+			if cpTm {
+				if tm == "\t" {
+					tm = prevTm
+				} else {
+					prevTm = tm
+				}
 			}
-
-			prevTm = tm
 
 			if block != nil {
 				callBack(block, argBldr, cb)
 			}
 
 			block, argBldr = newBlock(tm, m[2], m[3], m[4])
-		} else if m := reMySQL57.FindStringSubmatch(line); m != nil {
-			if block != nil {
-				callBack(block, argBldr, cb)
-			}
-
-			block, argBldr = newBlock(m[1], m[2], m[3], m[4])
 		} else if block != nil {
 			argBldr.WriteString(line)
 		}
