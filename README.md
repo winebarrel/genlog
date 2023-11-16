@@ -1,5 +1,7 @@
 # genlog
 
+[![test](https://github.com/winebarrel/genlog/actions/workflows/test.yml/badge.svg)](https://github.com/winebarrel/genlog/actions/workflows/test.yml)
+
 genlog is MySQL General Query Log parser.
 
 ## Usage
