@@ -2,7 +2,7 @@ before:
   hooks:
     - go mod tidy
 builds:
-  - main: ./cmd/qube
+  - main: ./cmd/genlog
     ldflags:
       - -X main.version={{.Version}}
     env:
