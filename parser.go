@@ -2,6 +2,7 @@ package genlog
 
 import (
 	"bufio"
+	"bytes"
 	"io"
 	"regexp"
 	"strings"
@@ -22,8 +23,6 @@ var reIgnore = regexp.MustCompile(
 		`Tcp port: \d+  Unix socket: \S+`,
 		`Time                 Id Command    Argument`,
 	}, "|") + `)$`)
-
-var ReadLineBufSize = 4096
 
 type Block struct {
 	Time     string
@@ -116,22 +115,19 @@ func Parse(file io.Reader, cb func(block *Block)) error {
 	return nil
 }
 
-func readLine(reader *bufio.Reader) ([]byte, error) {
-	buf := make([]byte, 0, ReadLineBufSize)
-	var err error
+func readLine(r *bufio.Reader) ([]byte, error) {
+	var buf bytes.Buffer
 
 	for {
-		line, isPrefix, e := reader.ReadLine()
-		err = e
+		line, isPrefix, err := r.ReadLine()
+		n := len(line)
 
-		if len(line) > 0 {
-			buf = append(buf, line...)
+		if n > 0 {
+			buf.Write(line)
 		}
 
 		if !isPrefix || err != nil {
-			break
+			return buf.Bytes(), err
 		}
 	}
-
-	return buf, err
 }
